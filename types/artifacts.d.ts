@@ -11,7 +11,7 @@ import {Simulator} from '../core/lib/dependency-graph/simulator/simulator.js';
 import {LighthouseError} from '../core/lib/lh-error.js';
 import {NetworkRequest as _NetworkRequest} from '../core/lib/network-request.js';
 import speedline from 'speedline-core';
-import TextSourceMap from '../core/lib/cdt/generated/SourceMap.js';
+import * as TextSourceMap from '../core/lib/cdt/generated/SourceMap.js';
 import {ArbitraryEqualityMap} from '../core/lib/arbitrary-equality-map.js';
 import type { TaskNode as _TaskNode } from '../core/lib/tracehouse/main-thread-tasks.js';
 import AuditDetails from './lhr/audit-details.js'
@@ -159,8 +159,6 @@ export interface GathererArtifacts extends PublicGathererArtifacts,LegacyBaseArt
   MixedContent: {url: string};
   /** Size and compression opportunity information for all the images in the page. */
   OptimizedImages: Array<Artifacts.OptimizedImage | Artifacts.OptimizedImageError>;
-  /** HTML snippets and node paths from any password inputs that prevent pasting. */
-  PasswordInputsWithPreventedPaste: Artifacts.PasswordInputsWithPreventedPaste[];
   /** Size info of all network records sent without compression and their size after gzipping. */
   ResponseCompression: {requestId: string, url: string, mimeType: string, transferSize: number, resourceSize: number, gzipSize?: number}[];
   /** Information on fetching and the content of the /robots.txt file. */
@@ -311,8 +309,6 @@ declare module Artifacts {
     source: 'head'|'body'|'headers'
     node: NodeDetails | null
   }
-
-  interface PasswordInputsWithPreventedPaste {node: NodeDetails}
 
   interface Script extends Omit<Crdp.Debugger.ScriptParsedEvent, 'url'|'embedderName'> {
     /**
@@ -713,7 +709,7 @@ declare module Artifacts {
     timestamps: TraceTimes;
     /** The relative times from timeOrigin to key events, in milliseconds. */
     timings: TraceTimes;
-    /** The subset of trace events from the page's process, sorted by timestamp. */
+    /** The subset of trace events from the main frame's process, sorted by timestamp. Due to cross-origin navigations, the main frame may have multiple processes, so events may be from more than one process.  */
     processEvents: Array<TraceEvent>;
     /** The subset of trace events from the page's main thread, sorted by timestamp. */
     mainThreadEvents: Array<TraceEvent>;
@@ -851,7 +847,8 @@ declare module Artifacts {
       property: string;
       attribute: string | null;
       prediction: string | null;
-    }
+    };
+    preventsPaste?: boolean;
     node: NodeDetails;
   }
 
@@ -980,6 +977,7 @@ export interface TraceEvent {
       processId?: number;
       isLoadingMainFrame?: boolean;
       documentLoaderURL?: string;
+      navigationId?: string;
       frames?: {
         frame: string;
         url: string;

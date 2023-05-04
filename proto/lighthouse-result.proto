@@ -604,6 +604,15 @@ message I18n {
 
     // Label for a row in a table that shows the screen emulation used
     string runtime_settings_screen_emulation = 60;
+
+    // Label for a row decorative chip indiciating entity is first-party.
+    string first_party_chip_label = 61;
+
+    // Label for a link tooltip indicating that it will be opened in a new tab of the browser.
+    string open_in_a_new_tab_tooltip = 62;
+
+    // Label for a generic category for all resources that could not be attributed against a 1st or 3rd party entity.
+    string unattributable = 63;
   }
 
   // The message holding all formatted strings used in the renderer.
@@ -642,10 +651,10 @@ message LhrEntity {
   optional string category = 3;
 
   // An optional flag indicating if the entity is the first party.
-  optional bool isFirstParty = 4;
+  optional bool is_first_party = 4;
 
   // An optional flag indicating if the entity is not recognized.
-  optional bool isUnrecognized = 5;
+  optional bool is_unrecognized = 5;
 
   // A list of URL origin strings that belong to this entity.
   repeated string origins = 6;

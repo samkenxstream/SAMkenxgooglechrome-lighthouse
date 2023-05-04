@@ -178,12 +178,10 @@ class NetworkRequest {
     this.fetchedViaServiceWorker = false;
     /** @type {string|undefined} */
     this.frameId = '';
-    /**
-     * @type {string|undefined}
-     * Only set for child targets (OOPIFs). This is the sessionId of the protocol connection on
-     * which this request was discovered. `undefined` means it came from the root.
-     */
+    /** @type {string|undefined} */
     this.sessionId = undefined;
+    /** @type {LH.Protocol.TargetType|undefined} */
+    this.sessionTargetType = undefined;
     this.isLinkPreload = false;
   }
 
@@ -225,7 +223,7 @@ class NetworkRequest {
     this.isSecure = UrlUtils.isSecureScheme(this.parsedURL.scheme);
 
     this.rendererStartTime = data.timestamp * 1000;
-    // Expected to be overriden with better value in `_recomputeTimesWithResourceTiming`.
+    // Expected to be overridden with better value in `_recomputeTimesWithResourceTiming`.
     this.networkRequestTime = this.rendererStartTime;
 
     this.requestMethod = data.request.method;
@@ -320,10 +318,14 @@ class NetworkRequest {
   }
 
   /**
-   * @param {string=} sessionId
+   * @param {string|undefined} sessionId
    */
   setSession(sessionId) {
     this.sessionId = sessionId;
+  }
+
+  get isOutOfProcessIframe() {
+    return this.sessionTargetType === 'iframe';
   }
 
   /**

@@ -22,6 +22,7 @@ const NON_NETWORK_SCHEMES = [
   'intent', // @see https://developer.chrome.com/docs/multidevice/android/intents/
   'file', // @see https://en.wikipedia.org/wiki/File_URI_scheme
   'filesystem', // @see https://developer.mozilla.org/en-US/docs/Web/API/FileSystem
+  'chrome-extension',
 ];
 
 /**
@@ -138,7 +139,7 @@ class UrlUtils {
   static elideDataURI(url) {
     try {
       const parsed = new URL(url);
-      return parsed.protocol === 'data:' ? url.slice(0, 100) : url;
+      return parsed.protocol === 'data:' ? Util.truncate(url, 100) : url;
     } catch (e) {
       return url;
     }

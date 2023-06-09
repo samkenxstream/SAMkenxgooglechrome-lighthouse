@@ -245,8 +245,8 @@ describe('_getArtifact', () => {
       navigatorUserAgentIssue: [],
       quirksModeIssue: [],
       sharedArrayBufferIssue: [],
-      twaQualityEnforcement: [],
       federatedAuthRequestIssue: [],
+      stylesheetLoadingIssue: [],
     });
   });
 
@@ -303,8 +303,8 @@ describe('_getArtifact', () => {
       navigatorUserAgentIssue: [],
       quirksModeIssue: [],
       sharedArrayBufferIssue: [],
-      twaQualityEnforcement: [],
       federatedAuthRequestIssue: [],
+      stylesheetLoadingIssue: [],
     });
   });
 });
@@ -368,8 +368,8 @@ describe('FR compat (inspector-issues)', () => {
       navigatorUserAgentIssue: [],
       quirksModeIssue: [],
       sharedArrayBufferIssue: [],
-      twaQualityEnforcement: [],
       federatedAuthRequestIssue: [],
+      stylesheetLoadingIssue: [],
     });
   });
 
@@ -405,8 +405,8 @@ describe('FR compat (inspector-issues)', () => {
       navigatorUserAgentIssue: [],
       quirksModeIssue: [],
       sharedArrayBufferIssue: [],
-      twaQualityEnforcement: [],
       federatedAuthRequestIssue: [],
+      stylesheetLoadingIssue: [],
     });
   });
 });
